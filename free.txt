@@ -1,0 +1,72 @@
+1.aim:Import a dataset and perform univariate analysis on the numeric columns to analyse the shape of the data. Write inference of the output. [Python or R or Excel]
+1.import pandas as pd
+population_data=pd.Series(
+   [1000,2000,3000,4000,5000],
+   index=['Rajasthan','MadhyaPradesh','Maharashtra','UttarPradesh','Banglore']
+)
+population_data
+2.print('the population of india is:'+str(population_data['Banglore']
+3.people=[
+       {'name':'asth','age':15,'city':'mumbai'}
+       {'name':'abhishek','age':20,'city':'delhi'}
+       {'name':'rudhra','age':18,'city':'pune'}
+]
+df=pd.DataFrame(people)
+df
+4.pop_data=pd.Series(
+     {
+        'Rajasthan':3635535562,
+        'MadhyaPradesh':56781234,
+        'Maharashtra':93744646555,
+        'UttarPradesh':9512744545,
+        'Banglore':78532455
+      }
+)
+print(pop_data)
+5.import pandas as pd
+import numpy as np
+disease=pd.read_csv(r'diabetes.csv')
+disease
+6.disease.describe()
+7.disease.head(7) 
+8.disease.tail()
+9.disease.info()
+10.del disease['Age']
+disease.head()
+11.disease.isnull().sum()
+12.disease.isnull().any()
+13.disease.dtypes
+14.disease.shape
+15.disease=pd.read_csv(r'diabetes.csv')
+numeric_columns=disease=disease.select_dtypes(include='number')
+numeric_columns 
+16.import matplotlib.pyplot as plt
+numeric_columns.hist(bins=20,figsize=(12,8))
+plt.subtitle('Univariate Analysis of Numeric Columns')
+plt.show()
+
+2. Aim: Demonstrate correlation analysis. Use heatmap for visualization. Write Inferences.
+1.import numpy ass np
+import seaborn as sn
+import pandas as pd
+import matplotlib.pyplot as plt
+2.data=np.random.randint(low=1,high=100,size=(10,10))
+print(f"the data be plotted:\n{data}")
+3.hm=sn.heatmap(data=data)
+plt.show()
+4.hm=sn.heapmap(data=data,cmap="tab20")
+plt.show()
+5.hm=sn.heatmap(data=data,annot=True)
+6.dataset=pd.read_csv("bestsellers.csv")
+dataset
+8.del dataset["Name"]
+del dataset["Author"]
+del dataset["Genre"]
+dataset
+9.corr=dataset.corr()
+corr
+10.hm=sn.heatmap(data=corr,annot=True,cmap"YlGnBu")
+plt.show()
+
+  
+        
