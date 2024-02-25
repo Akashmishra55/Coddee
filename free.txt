@@ -68,5 +68,32 @@ corr
 10.hm=sn.heatmap(data=corr,annot=True,cmap"YlGnBu")
 plt.show()
 
-  
+7.Import a csv or Excel dataset and demonstrate data wrangling, view shape, dimension, column 
+names of the dataset, ways to select data using column number, column names, simple and 
+compound conditional selection, update and modify dataset.
+
+1.import pandas as pd
+data=pd.read_csv("Breast_Cancer.csv")
+data
+2.data["Tumor Size"].head()
+3.col=data[['Tumor Size',Regional Node Examined','Reginol Node Positive']]
+col
+4.data.iloc[2]
+5.data.iloc[[2,4,6]]
+6.data.iloc[[2,4]],[[9,12,14]]
+
+
+8.Demonstrate group by summary operations and sorting techniques. 
+
+1.import pandas as pd
+reviews=pd.read_csv("wine.csv")
+reviews.drop("Unnamed:0",axis="columns",inplace=True)
+reviews
+2.reviews.groupby('points').points.count()
+3.reviews.groupby('country').country.count()
+4.reviews.groupby(['country','province']).description.agg([len])
+5.countries_reviewed=reviews.groupby(['country','province']).description.agg([len]).reset_index()
+6.countries_reviewed.sort_values(by='len',ascending=False)
+7.countries_reviewed.sort_index()
+8.countries_reviewed.sort_values(by=['country','len'])  
         
