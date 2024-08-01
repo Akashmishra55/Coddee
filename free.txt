@@ -1,226 +1,338 @@
-#1.Write a program to implement logical 
-#gates AND, OR and NOT with 
-McCulloch-Pitts
-class McCullochPittsNeuron:
-    def __init__(self, weights, threshold):
-        self.weights = weights
-        self.threshold = threshold
-    def activation(self, inputs):
-        # Calculate the weighted sum
-        weighted_sum = sum(w * inp for w, inp in zip(self.weights, inputs))
-        # Apply the threshold function
-        return 1 if weighted_sum >= self.threshold else 0
-# AND gate
-def AND_gate(x1, x2):
-    weights = [1, 1]
-    threshold = 2
-    neuron = McCullochPittsNeuron(weights, threshold)
-    return neuron.activation([x1, x2])
-# OR gate
-def OR_gate(x1, x2):
-    weights = [1, 1]
-    threshold = 1
-    neuron = McCullochPittsNeuron(weights, threshold)
-    return neuron.activation([x1, x2])
-# NOT gate
-def NOT_gate(x):
-    weights = [-1]
-    threshold = 0
-    neuron = McCullochPittsNeuron(weights, threshold)
-    return neuron.activation([x])
-# Testing the gates
-print("AND Gate:")
-print(f"AND(0, 0) = {AND_gate(0, 0)}")
-print(f"AND(0, 1) = {AND_gate(0, 1)}")
-print(f"AND(1, 0) = {AND_gate(1, 0)}")
-print(f"AND(1, 1) = {AND_gate(1, 1)}")
-print("\nOR Gate:")
-print(f"OR(0, 0) = {OR_gate(0, 0)}")
-print(f"OR(0, 1) = {OR_gate(0, 1)}")
-print(f"OR(1, 0) = {OR_gate(1, 0)}")
-print(f"OR(1, 1) = {OR_gate(1, 1)}")
-print("\nNOT Gate:")
-print(f"NOT(0) = {NOT_gate(0)}")
-print(f"NOT(1) = {NOT_gate(1)}")
-
-2.Write a program to implement Hebb’s rul
+#3.Analyze training effectiveness and identify skill gaps in the organization.
 import numpy as np
-class HebbianLearning:
-    def __init__(self, input_size):
-        self.weights = np.zeros(input_size)
-    def train(self, inputs, outputs):
-        for input_vector, output in zip(inputs, outputs):
-            self.weights += input_vector * output
-    def predict(self, input_vector):
-        return np.dot(input_vector, self.weights)
-# Training data for a simple AND gate
-inputs = np.array([
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1]
-])
-outputs = np.array([0, 0, 0, 1])
-hebbian = HebbianLearning(input_size=2)
-hebbian.train(inputs, outputs)
-print("Trained Weights:", hebbian.weights)
-# Testing the model
-print("Predictions:")
-for input_vector in inputs:
-    prediction = hebbian.predict(input_vector)
-    print(f"Input: {input_vector}, Predicted Output: {prediction}")
+import pandas as pd
+import matplotlib.pyplot as plt
+# %matplotlib inline
+plt.style.use("fivethirtyeight")
+import seaborn as sns
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+df = pd.read_csv('Uncleaned_employees_final_dataset (1).csv')
+df.shape
+df.head()
+df.info()
+df.describe().T
+df.isna().sum()
+df[df['education'].isna()]
+df[df['previous_year_rating'].isna()]
+df.dropna(inplace=True)
+df.shape
+df.duplicated().sum()
+duplicate = df[df.duplicated()]
+duplicate
+df.drop_duplicates(inplace=True)
+df.drop(columns=['employee_id'], inplace=True)
+df.department.value_counts()
+df.region.value_counts()
+df.education.value_counts()
+df.gender.value_counts()
+df.recruitment_channel.value_counts()
+num_col = df.select_dtypes(include=np.number)
+plt.style.use("fivethirtyeight")
+plt.figure(figsize=(30,30))
+for index,column in enumerate(num_col):
+ plt.subplot(7,4,index+1)
+ sns.boxplot(data=num_col,x=column)
+sns.countplot(x='awards_won', data=df)
+plt.show()
+sns.countplot(x='KPIs_met_more_than_80', data=df)
+plt.show()
+plt.style.use("fivethirtyeight")
+fig,ax=plt.subplots(ncols=2,nrows=1,figsize=(15,5))
+palette_color = sns.color_palette('rocket')
+ax[0].hist(x=df['age'],color='purple')
+ax[0].set_title("Distribution of Employee Age")
+ax[1].pie(df['gender'].value_counts(),autopct='%1.f%%',colors=palette_color,labels=['Male'
+,'Female'])
+ax[1].set_title("Employee Gender")
+plt.tight_layout();
+plt.style.use("fivethirtyeight")
+plt.figure(figsize=(15,7))
+chart=sns.countplot(y='region',data=df,palette='rocket', order = 
+df['region'].value_counts()[:20].index)
+plt.title("Top 20 Region of Employee",
+ fontsize='20',
+ backgroundcolor='AliceBlue',
+ color='magenta');
+plt.style.use("fivethirtyeight")
+M.Sc. Data Science (Semester II) Page 34
+ Akash Mishra
+chart=sns.countplot(x='department',data=df,palette='rocket', order = 
+df['department'].value_counts().index)
+plt.title("Number of Employees by Department",
+ fontsize='20',
+ backgroundcolor='AliceBlue',
+ color='magenta')
+plt.xticks(rotation=90)
+plt.ylabel("")
+plt.show();
+plt.style.use("fivethirtyeight")
+chart=sns.countplot(x='education',data=df,palette='rocket', order = 
+df['education'].value_counts().index)
+M.Sc. Data Science (SemesterII) Page 35
+ Akash Mishra
+plt.title("Frequency",
+ fontsize='20',
+ backgroundcolor='AliceBlue',
+ color='magenta')
+plt.ylabel("")
+plt.show();
+plt.style.use("fivethirtyeight")
+chart=sns.countplot(x='recruitment_channel',data=df,palette='rocket', order = 
+df['recruitment_channel'].value_counts().index)
+plt.title("Frequency",
+ fontsize='20',
+ backgroundcolor='AliceBlue',
+ color='magenta')
+plt.ylabel("")
+plt.show();
+plt.style.use("fivethirtyeight")
+fig,ax=plt.subplots(ncols=2,nrows=1,figsize=(15,5))
+palette_color = sns.color_palette('rocket')
+ax[0].hist(x=df['avg_training_score'],color='purple')
+ax[0].set_title("Distribution of AVG Training Score")
+ax[1].hist(x=df['length_of_service'], color='purple')
+ax[1].set_title("Distribution of Length of Service")
+plt.tight_layout();
+df_copy = df.copy()
+df.head()
+df = pd.get_dummies(df,columns=['department'])
+df = pd.get_dummies(df,columns=['gender','education','recruitment_channel'])
+df.drop(columns=['region'], inplace=True)
+from sklearn.preprocessing import MinMaxScaler
+minmax = MinMaxScaler()
+df[df.columns] = minmax.fit_transform(df)
+df = df.reset_index(drop=True)
+df.head()
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+principalComponents = pca.fit_transform(df)
+principalDf = pd.DataFrame(data = principalComponents
+ , columns = ['principal component 1', 'principal component 2'])
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.scatterplot(data=principalDf, x='principal component 1', y='principal component 2', 
+ax=ax)
+ax.yaxis.set_visible(False)
+ax.xaxis.set_visible(False)
+ax.spines[:].set_visible(False)
+ax.set_xlabel('Principal Component 1', fontsize=15)
+ax.set_ylabel('Principal Component 2', fontsize=15)
+ax.set_title('2 component PCA', fontsize = 20)
+plt.show()
+inertias = []
+for k in range(2, 13):
+ model = KMeans(n_clusters=k,random_state=42, n_init='auto')
+ model.fit(principalComponents)
+ inertias.append(model.inertia_)
+fig, ax = plt.subplots(figsize=(10,10))
+ax.plot(range(2, 13), inertias, 'r--', marker='o', label='Inertias')
+ax.spines[['top', 'right']].set_visible(False)
+ax.set_xlabel('Nº clusters', fontsize=10)
+ax.set_ylabel('Inertias', fontsize=10)
+plt.show()
+silhouette_scores = []
+for k in range(2, 13):
+ model = KMeans(n_clusters=k,random_state=42, n_init='auto')
+ model.fit(principalComponents)
+ silhouette_scores.append(silhouette_score(principalComponents, model.labels_))
+fig, ax = plt.subplots(figsize=(10,10))
+ax.plot(range(2, 13), silhouette_scores, color='purple', marker='o', label='silhouette scores')
+ax.set_xlabel('Nº clusters', fontsize=10)
+ax.set_ylabel('silhouette scores', fontsize=10)
+plt.show()
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.scatterplot(data=principalDf, x='principal component 1', y='principal component 2', 
+hue='Clusters', ax=ax)
+ax.set_title('Employee Distribution', fontsize=15)
+ax.yaxis.set_visible(False)
+ax.xaxis.set_visible(False)
+ax.spines[:].set_visible(False)
 
-3.Implement Kohonen Self organizing map.
+
+#4.Develop an HR scoreboard to measure HR effectiveness and align HR strategies with
+Orgazational goals.
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+from numpy.typing import ArrayLike
+from pandas.core.frame import DataFrame, Series
+from xgboost import XGBRegressor
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, r2_score
+from IPython.display import display, HTML, Markdown
+df = pd.read_csv('Employee Attrition.csv')
+df = df.drop('Emp ID', axis=1)
+df.head()
+n_rows, n_columns = df.shape
+total_data = n_rows * n_columns
+print(f'total rows: {n_rows} \ntotal columns: {n_columns} \ntotal data: {total_data}')
+df.info()
+df.isnull().sum()
+# Delete the entire missing values
+df.dropna(inplace=True)
+def summary_stats(dataframe: DataFrame, numeric_only = True, style=True):
+ if numeric_only:
+ summary: DataFrame = dataframe.describe().T
+ summary["variance"] = dataframe.var(numeric_only=True)
+ summary = summary if not style else summary.style.format("{:.2f}").\
+ background_gradient(cmap="Blues", axis=1, 
+subset=summary.columns.drop("count"))
+ else:
+ summary = dataframe.describe(exclude="number")
+ return summary
+numeric_cols_summary = summary_stats(df, style=True)
+category_cols_summary = summary_stats(df, numeric_only=False)
+display(numeric_cols_summary)
+display(category_cols_summary)
+numerical_cols = df.select_dtypes(include=['float64']).columns
+# Set the style for seaborn
+sns.set(style="whitegrid")
+# Define a color palette with a list of distinct colors
+colors = sns.color_palette("husl", len(numerical_cols))
+# Create individual boxplots for each numerical column with different colors
+plt.figure(figsize=(16, 12))
+for i, (col, color) in enumerate(zip(numerical_cols, colors), 1):
+ plt.subplot(3, 3, i)
+ sns.boxplot(data=df[col], palette=[color])
+ plt.title(f'Boxplot of {col}')
+plt.tight_layout()
+plt.show()
+# Group by 'salary' and calculate summary statistics for each column
+salary_summary = df.groupby('salary').agg({
+ 'satisfaction_level': 'mean',
+ 'last_evaluation': 'mean',
+ 'number_project': 'mean',
+ 'average_montly_hours': 'mean',
+M.Sc. Data Science (Semester II) Page 44
+ Akash Mishra
+ 'time_spend_company': 'mean',
+ 'Work_accident': 'mean',
+ 'promotion_last_5years': 'mean',
+}).reset_index()
+# Exclude 'dept' column from the table
+visible_columns = ['salary', 'satisfaction_level', 'last_evaluation', 'number_project', 
+'average_montly_hours', 'time_spend_company', 'Work_accident', 'promotion_last_5years']
+# Create a table figure using plotly graph_objects
+fig = go.Figure(data=[go.Table(
+ header=dict(values=list(salary_summary[visible_columns].columns)),
+ cells=dict(values=[salary_summary[visible_columns][col].round(3) if col != 'salary' else 
+salary_summary[visible_columns][col] for col in 
+salary_summary[visible_columns].columns])
+)])
+# Update layout for better visibility
+fig.update_layout(
+ title='Salary Summary',
+ height=300
+)
+# Show the figure
+fig.show()
+
+
+5.Use predictive analytics to forecast employee attrition and develop retention strategies
+import numpy as np # linear algebra
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv('WA_Fn-UseC_-HR-Employee-Attrition.csv')
+df.head()
+df.shape
+df.describe()
+df.isnull().sum()
+attrition_count = pd.DataFrame(df['Attrition'].value_counts())
+attrition_count
+plt.pie(attrition_count['Attrition'] , labels = ['No' , 'Yes'] , explode = (0.2,0))
+sns.countplot(df['Attrition'])
+df.drop(['EmployeeCount' , 'EmployeeNumber'] , axis = 1)
+attrition_dummies = pd.get_dummies(df['Attrition'])
+attrition_dummies.head()
+df = pd.concat([df, attrition_dummies] , axis = 1)
+df.head()
+df = df.drop(['Attrition' , 'No'] , axis = 1)
+df.head()
+sns.barplot(x = 'Gender' , y = 'Yes', data = df)
+sns.barplot(x = 'Department', y = 'Yes', data = df)
+sns.barplot(x = 'BusinessTravel', y = 'Yes', data = df)
+df = df.drop(['Age' , 'JobLevel'], axis = 1)
+from sklearn.preprocessing import LabelEncoder
+for column in df.columns:
+ if df[column].dtype==np.number:
+ continue
+ else:
+ df[column]=LabelEncoder().fit_transform(df[column])
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(n_estimators = 10, criterion = 'entropy', random_state = 0)
+x = df.drop(['Yes'], axis = 1)
+y = df['Yes']
+x_train, x_test , y_train, y_test = train_test_split(x,y, test_size = 0.3, random_state = 0)
+x_train.head()
+rf.fit(x_train, y_train)
+rf.score(x_train, y_train)
+pred = rf.predict(x_test)
+from sklearn.metrics import accuracy_score
+accuracy_score(y_test, pred)
 
-dataset=pd.read_csv('')
-dataset
-X = dataset.iloc[:,:-1].values    
-y = dataset.iloc[:,-1].values
-from sklearn.preprocessing import MinMaxScalar
-sc=MinMaxScalar(feature_range=(0,1))
-X =sc.fit_transform(X)
-X
-from minisom import MiniSom
-som=MiniSom(x= 10,y=10,input_len=15,sigma=1.0, learning_rate=0.5)
-from pylab import bone,pcolor,colorbar,plot,show
-bone()
-pcolor(som.distance_map().T)
-colorbar()
-mappings=som.win_map(x)
-mappings
-fraunds=np.concatenate((mappings[(1,1)],mappings[(4,1)]),axis=0)
-frauds
-frauds=sc.inverse_transform(frauds)
-frauds
 
-4.Implement a program to find the winning neuron using MaxNet
+6.Measure and analyze employee engagement levels within the organizations
+import pandas as pd
 import numpy as np
-def maxnet(input_vector, learning_rate, epochs):
- num_neurons = len(input_vector)
- weights = np.ones(num_neurons)
- for _ in range(epochs):
-   for i in range(num_neurons):
-    net_input = np.dot(weights, input_vector)
-    weights[i] += learning_rate * (input_vector[i] - net_input)
- # Normalize weights
- weights = weights / np.linalg.norm(weights)
- # Find the winning neuron (index of the neuron with maximum weight)
- winning_neuron = np.argmax(weights)
- return winning_neuron
-# Example usage
-input_vector = np.array([0.2, 0.4, 0.6, 0.8])
-learning_rate = 0.1
-epochs = 100
-winner = maxnet(input_vector, learning_rate, epochs)
-print("Winning neuron index:", winner)
-
-5.Implement De-Morgan‟s Law
-import numpy as np
-# Function to implement De Morgan's Law for conjunction in fuzzy logic
-def demorgans_law_conj(p, q):
- result = np.minimum(1, 1 - (p + q))
- return result
-# Function to implement De Morgan's Law for disjunction in fuzzy logic
-def demorgans_law_disj(p, q):
- result = np.maximum(0, 1 - (p + q))
- return result
-# Test De Morgan's laws
-p = 0.7
-q = 0.4
-print("De Morgan's Law for Conjunction: ", demorgans_law_conj(p, q))
-print("De Morgan's Law for Disjunction: ", demorgans_law_disj(p, q))
-
-6.Implement Union, Intersection, Complement and Difference operations on fuzzy sets.
-def fuzzy_union(set1, set2):
-  union_set = {}
-  for element in set1.keys() | set2.keys():
-     union_set[element] = max(set1.get(element, 0), set2.get(element, 0))
-  return union_set
-def fuzzy_intersection(set1, set2):
-   intersection_set = {}
-   for element in set1.keys() & set2.keys():
-     intersection_set[element] = min(set1[element], set2[element])
-   return intersection_set
-def fuzzy_complement(set1):
-   complement_set = {}
-   for element, membership in set1.items():
-     complement_set[element] = 1 - membership
-   return complement_set
-def fuzzy_difference(set1, set2):
-   difference_set = {}
-   for element, membership in set1.items():
-    if element not in set2:
-      difference_set[element] = membership
-   return difference_set
-# Example fuzzy sets
-set1 = {'a': 0.7, 'b': 0.5, 'c': 0.3}
-set2 = {'b': 0.6, 'c': 0.4, 'd': 0.2}
-# Perform operations
-union_set = fuzzy_union(set1, set2)
-intersection_set = fuzzy_intersection(set1, set2)
-complement_set1 = fuzzy_complement(set1)
-complement_set2 = fuzzy_complement(set2)
-difference_set = fuzzy_difference(set1, set2)
-# Display results
-print("Union Set:", union_set)
-print("Intersection Set:", intersection_set)
-print("Complement of Set 1:", complement_set1)
-print("Complement of Set 2:", complement_set2)
-print("Difference Set (Set1 - Set2):", difference_set)
-
-7.Create fuzzy relation by Cartesian product of any two fuzzy set
-def cartesian_product(set1, set2):
- fuzzy_relation = {}
- for element1, membership1 in set1.items():
-  for element2, membership2 in set2.items():
-   fuzzy_relation[(element1, element2)] = min(membership1, membership2)
- return fuzzy_relation
-# Example fuzzy sets
-set1 = {'a': 0.7, 'b': 0.5, 'c': 0.3}
-set2 = {'x': 0.6, 'y': 0.4, 'z': 0.2}
-# Create fuzzy relation
-fuzzy_relation = cartesian_product(set1, set2)
-# Display fuzzy relation
-print("Fuzzy Relation:")
-for pair, membership in fuzzy_relation.items():
- print(pair, ":", membership)
-
-8.Perform max-min composition on any two fuzzy relations
-import numpy as np
-
-def max_min_composition(R1, R2):
-   
-    # Validate the input matrices
-    if R1.shape[1] != R2.shape[0]:
-        raise ValueError("The number of columns in R1 must match the number of rows in R2.")
-
-    # Initialize the result matrix
-    result = np.zeros((R1.shape[0], R2.shape[1]))
-
-    # Perform max-min composition
-    for i in range(R1.shape[0]):
-        for j in range(R2.shape[1]):
-            min_values = [min(R1[i, k], R2[k, j]) for k in range(R1.shape[1])]
-            result[i, j] = max(min_values)
-    return result
-# Example fuzzy relations
-R1 = np.array([
-    [0.2, 0.5, 0.3],
-    [0.8, 0.4, 0.6]
-])
-R2 = np.array([
-    [0.9, 0.1],
-    [0.7, 0.8],
-    [0.6, 0.3]
-])
-# Perform max-min composition
-result = max_min_composition(R1, R2)
-
-print("Result of max-min composition:")
-print(result)
+import matplotlib.pyplot as plt
+a=pd.read_csv("HRDataset_v14.csv")
+a
+a.info()
+a.describe
+a['Salary'].sort_values(ascending=False).head(10) #This will return the name and salaries of top 
+10 highest paid employees
+a=a[a['PerformanceScore']=='PIP']
+a['PerformanceScore']
+a=pd.read_csv("HRDataset_v14.csv",index_col=['Employee_Name'])
+a.sort_values(by=['EmpID'],ascending=True,inplace=True)
+a['Absences'].value_counts()
+a['MarriedID'].value_counts()
+a=a[a['SpecialProjectsCount']!=0]
+a['SpecialProjectsCount'].sort_values(ascending=False)
+a=pd.read_csv("HRDataset_v14.csv",index_col=['Employee_Name'])
+a.sort_values(by=['EmpID'],ascending=True,inplace=True)
+x=[1,2,3,4,5,6,7,8,9,10]
+y=a['Salary'].sort_values(ascending=False).head(10) #To return the top 10 highest salaries
+z=a['Salary'].sort_values(ascending=False).tail(10) #To return the top 10 lowest salaries
+plt.bar(x,y,color='g',label="Highest Salaries")
+plt.bar(x,z,color='r',label="Lowest Salaries")
+plt.title("Top 10 Highest vs Lowest Salaries",fontsize=15) #Giving Title to the chart
+plt.legend() #Adding legends to understand what the colours are indicating
+plt.show()
+a['RecruitmentSource'].value_counts() #Returns the values of the sources along with no. of 
+employees hired from that particular source
+x=['Indeed','LinkedIn','Google Search','Employee Referral','Diversity Job 
+Fair','CareerBuilder','Website','Other',
+ 'On-line Web application']
+#The values of x should exactly be same and in sequence as listed in the above result, else it may 
+return incorrect graph
+y=a['RecruitmentSource'].value_counts()
+plt.barh(x,y,color='m')
+plt.title("Recruitment Sources",fontsize=15)
+plt.grid() #Adding grid for better understanding
+plt.show()
+a['PerformanceScore'].value_counts()
+y=a['PerformanceScore'].value_counts()
+plt.plot(y,color="r",marker="o",ms=10,mfc="g")
+plt.xlabel("Performance Scale",fontsize=12)
+plt.ylabel("Values",fontsize=12)
+plt.title("Performance Score of Employees",fontsize=15)
+plt.legend()
+plt.grid()
+a['EmpSatisfaction'].value_counts() #This will group the no. of employees based on the ratings 
+they have given on the scale of 5
+x=[3,5,4,2,1] #Array is taken in this sequence because of the the previous query
+y=a['EmpSatisfaction'].value_counts()
+plt.stem(x,y,linefmt=":",markerfmt="mo",bottom=0,use_line_collection=False,
+ orientation="horizontal")
+plt.xlabel("No. of Employees",fontsize=12)
+plt.ylabel("Rating Given",fontsize=12)
+plt.title("Employee Satisfaction",fontsize=15)
 
 
 
